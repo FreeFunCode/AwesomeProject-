@@ -9,6 +9,7 @@
 import React from 'react';
 import type {Node} from 'react';
 import {
+  DeviceEventEmitter,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -25,6 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import NativeUtil from './NativeUtil';
 
 const Section = ({children, title}): Node => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -53,6 +55,14 @@ const Section = ({children, title}): Node => {
 };
 
 const App: () => Node = () => {
+  //接收到Android参数
+  DeviceEventEmitter.addListener('FromAndroid', msg => {
+    console.log('收到来自Android消息：' + msg);
+  });
+
+  //RN 调 Android
+  NativeUtil.sendRequest('React-Native');
+
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
